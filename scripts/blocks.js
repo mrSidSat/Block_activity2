@@ -86,7 +86,6 @@ Blockly.JavaScript["mrsidsat's_masterBlock"] = function (block) {
     obj.character2 = block.getFieldValue('character2');
     obj.speed2 = block.getFieldValue('speed2');
     obj.numberOfApples = block.getFieldValue('numberOfApples');
-    console.log(obj);
     return "startSimulation()";
   };
   //generate code
@@ -95,7 +94,6 @@ Blockly.JavaScript["mrsidsat's_masterBlock"] = function (block) {
       Blockly.common.getMainWorkspace()
     );
   try{
-    console.log(code);
     eval(code);
   }
   catch(e){console.log(e);};

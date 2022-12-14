@@ -90,3 +90,23 @@ body,html{
     text-align: center;
     font-family: cursive;
   }
+
+  .scoreboard{
+    height:40px;
+    width:500px;
+    top:460px;
+    position: absolute;
+    left:0px;
+    background-color: rgb(212, 212, 212);
+    opacity: 0.4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .scoreboardTiles{
+    flex:1;
+    font-family: cursive;
+    font-style: italic;
+    font-size: large;
+    padding-left: 5px;
+  }

@@ -7,14 +7,14 @@ const movements = [[20,10],[-20,-10]];
 let numberOfApples = 10;
 const appleLogo = "public/apple.jpg";
 var interval;
-let speed = 1000;
+let speed0 = 1000,speed1 = 1500;
 
 //user instructions
 const instructions = document.createElement('div');
 instructions.classList.add('instructions');
 instructions.innerHTML = "Construct the block and click on \"Run Blocks\"";
 grid.appendChild(instructions);
-console.log(instructions);
+
 //apple grid
 class applebox{
     constructor(logo,leftoffset,topoffset){
@@ -78,19 +78,29 @@ function createCharacter(url,name,left,top){
 }
 
 //move function
-function move(i){
+function move0(){
     for(let i =0;i<characters.length;i++)
     {
         
         checkGame();
-        checkApples(i);
-        checkBorder(i);
-        characters[i].topLeft[0] += movements[i][0];
-        characters[i].topLeft[1] += movements[i][1];
-        let temp = grid.getElementsByClassName("character")[i];
-        temp.style.left = characters[i].topLeft[0] + "px";
-        temp.style.top = characters[i].topLeft[1] + "px";
+        checkApples(0);
+        checkBorder(0);
+        characters[0].topLeft[0] += movements[0][0];
+        characters[0].topLeft[1] += movements[0][1];
+        let temp = grid.getElementsByClassName("character")[0];
+        temp.style.left = characters[0].topLeft[0] + "px";
+        temp.style.top = characters[0].topLeft[1] + "px";
     }
+}
+function move1(){
+        checkGame();
+        checkApples(1);
+        checkBorder(1);
+        characters[1].topLeft[0] += movements[1][0];
+        characters[1].topLeft[1] += movements[1][1];
+        let temp = grid.getElementsByClassName("character")[1];
+        temp.style.left = characters[1].topLeft[0] + "px";
+        temp.style.top = characters[1].topLeft[1] + "px";
 }
 
 //check Border Condition
@@ -141,6 +151,7 @@ function checkApples(j){
             numberOfApples--;
             appleBoxes.splice(i,1);
             characters[j].score++;
+            updatescore();
         }
     }
 }
@@ -155,7 +166,8 @@ function checkGame() {
 
 //Trigger movement
 function startGame(){
-    interval = setInterval(move,speed);
+    interval = setInterval(move0,speed0);
+    interval = setInterval(move1,speed1);
 }
 
 //Stop movement
@@ -163,6 +175,30 @@ function endGame(){
     displayWinner();
     clearInterval(interval);
 }
+
+//inject scoreboard
+function injectScoreBoard(){
+    const ele = document.createElement('div');
+    ele.classList.add("scoreboard");
+    grid.appendChild(ele);
+    const scoreTile1 = document.createElement('div');
+    const scoreTile2 = document.createElement('div');
+    scoreTile1.classList.add("scoreboardTiles");
+    scoreTile2.classList.add("scoreboardTiles");
+    ele.appendChild(scoreTile1);
+    ele.appendChild(scoreTile2);
+    updatescore();
+    
+}
+
+// updatescore
+function updatescore(){
+    const elet = document.getElementsByClassName("scoreboardTiles");
+    for(let i=0;i<characters.length;i++)
+    {
+        elet[i].innerHTML = "" + characters[i].name + " : " + characters[i].score;
+    }
+} 
 
 //call obj
 const obj={
@@ -178,8 +214,10 @@ function startSimulation(){
     createCharacter("public/" + obj.character1 + ".jpg",obj.character1,250,250);
     createCharacter("public/"+ obj.character2 +".jpg",obj.character2,250,250);
     numberOfApples = obj.numberOfApples;
-    console.log(movements);
+    speed0 = Math.floor(parseFloat(10000/parseInt(obj.speed1)));
+    speed1 = Math.floor(parseFloat(10000/parseInt(obj.speed2)));
     grid.removeChild(instructions);
+    injectScoreBoard();
     fillApples();
     startGame();
 }
@@ -187,10 +225,9 @@ function startSimulation(){
 //
 function displayWinner(){
     if(characters[0].score > characters[1].score){
-        document.getElementsByClassName('winner')[0].innerHTML = "Player1 wins";
+        document.getElementsByClassName('winner')[1].innerHTML = "Player1 wins";
     }
-    else document.getElementsByClassName('winner')[0].innerHTML = "Player2 wins";
-    
+    else document.getElementsByClassName('winner')[1].innerHTML = "Player2 wins";
 }
 
 
